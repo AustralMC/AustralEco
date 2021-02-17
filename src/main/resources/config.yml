@@ -1,0 +1,42 @@
+Database:
+  Use: false
+  Host: ''
+  Porta: 3306
+  Database: ''
+  Usuario: ''
+  Senha: ''
+  Parametros: '?verifyServerCertificate=false&useSSL=false&useUnicode=true&characterEncoding=utf8'
+
+Info-Moeda:
+  Nome: 'Coroa'
+  Plural: 'Coroas'
+  Simbolo: 'CR$'
+  ISO: 'AUC'
+
+Mensagens:
+  Prefixos:
+    Normal: '&7[&e&lFinanças&7]&r'
+    Erro: '&7[&4&lErro&7]&r'
+  Comandos:
+    Admin:
+      Give:
+        Sucesso: "{prefixo-normal} &fQuantia de &a{valor} &6adicionada na conta de &e{jogador} &6com sucesso"
+      Set:
+        Sucesso: "{prefixo-normal} &fQuantia de &a{valor} &6setada com sucesso para &e{jogador}"
+      Take:
+        Sucesso: "{prefixo-normal} &fQuantia de &a{valor} &6removida da conta de &e{jogador} &6com sucesso"
+      Erro:
+        Cache: "{prefixo-erro} &cErro interno ao tentar encontrar os dados do jogador."
+        Dinheiro-Insuficiente: "{prefixo-erro} &cO jogador não tem dinheiro suficiente."
+    Money:
+      Seu-Saldo: '{prefixo-normal} &aSeu saldo: &e{valor}'
+      Saldo-Outro-Jogador: '{prefixo-normal} &aSaldo de &6{alvo}&a: &e{valor}'
+  Common:
+    Comando-Apenas-InGame: '{prefixo-erro} &cEsse comando só pode ser executado in-game.'
+    Dinheiro-Insuficiente: '{prefixo-erro} &cVocê não tem dinheiro suficiente para isso.'
+    Erro-Inesperado: '{prefixo-erro} &cErro inesperado.'
+    Jogador-Nao-Encontrado: '{prefixo-erro} &cO jogador informado não foi encontrado.'
+    Nao-Encontrado-Cache: '{prefixo-erro} &cOcorreu um erro interno. Relogue e tente novamente, ou entre em contato com um staff!'
+    Parametro-Precisa-Ser-Numero: '{prefixo-erro} &cO parâmetro "{parametro}" deve ser um número.'
+    Quantia-Invalida: '{prefixo-erro} &cA quantia informada é inválida.'
+    Uso-Correto: '{prefixo-erro} &cUso correto: {exemplo}'

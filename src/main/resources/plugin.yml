@@ -1,0 +1,13 @@
+name: AustralEco
+version: '1.0'
+main: net.australmc.economy.AustralEco
+depend: ['AustralCore']
+softdepend: ['Vault']
+api-version: '1.16'
+
+commands:
+  money:
+    description: "Comando base do sistema de economia"
+  australeco:
+    aliases: ['eco']
+    description: "Comando administrativo do sistema de economia"
