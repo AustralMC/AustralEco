@@ -4,9 +4,9 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import net.australmc.core.config.mapper.ConfigMapper
 import net.australmc.economy.AustralEco
-import net.australmc.economy.domain.Transaction
 import net.australmc.economy.domain.DatabaseCredentials
 import net.australmc.economy.domain.EconomicProfile
+import net.australmc.economy.domain.Transaction
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.sql.PreparedStatement
@@ -118,27 +118,27 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
     }
 
     private fun setupTables() {
-        val tableCreationStatement = pool.connection.prepareStatement(
+        val accountTableCreationStatement = pool.connection.prepareStatement(
             "CREATE TABLE IF NOT EXISTS australeco_account (" +
-                    "id UNSIGNED BIGINT NOT NULL AUTO_INCREMENT, " +
+                    "id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, " +
                     "uuid VARCHAR(36) NOT NULL, " +
                     "owner_nickname VARCHAR(16) NOT NULL, " +
                     "balance DOUBLE NOT NULL DEFAULT 0, " +
-                    "CONSTRAINT pk_auseco_acc PRIMARY KEY (id), " +
-                    "CONSTRAINT uk_auseco_acc_uuid PRIMARY KEY (uuid), " +
-                    "CONSTRAINT uk_auseco_acc_nick PRIMARY KEY (owner_nickname)" +
-            "); " +
+                    "CONSTRAINT uk_auseco_acc_uuid UNIQUE KEY (uuid), " +
+                    "CONSTRAINT uk_auseco_acc_nick UNIQUE KEY (owner_nickname)" +
+            "); ")
+        executeUpdate(accountTableCreationStatement)
+
+        val historyTableCreationStatement = pool.connection.prepareStatement(
             "CREATE TABLE IF NOT EXISTS australeco_history (" +
-                    "id UNSIGNED BIGINT NOT NULL AUTO_INCREMENT, " +
-                    "payer_id INT(11) NOT NULL, " +
-                    "receiver_id INT(11) NOT NULL, " +
+                    "id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, " +
+                    "payer_id BIGINT UNSIGNED NOT NULL, " +
+                    "receiver_id BIGINT UNSIGNED NOT NULL, " +
                     "amount DOUBLE NOT NULL, " +
-                    "CONSTRAINT pk_auseco_hist PRIMARY KEY (id), " +
                     "CONSTRAINT fk_auseco_hist_payer FOREIGN KEY (payer_id) REFERENCES australeco_account(id), " +
                     "CONSTRAINT fk_auseco_hist_receiver FOREIGN KEY (receiver_id) REFERENCES australeco_account(id)" +
             ");")
-
-        executeUpdate(tableCreationStatement)
+        executeUpdate(historyTableCreationStatement)
     }
 
     private fun getListQueryConsumer(callback: Consumer<List<EconomicProfile>>) = Consumer<ResultSet> {
@@ -183,7 +183,6 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
             val connection = statement.connection
             try {
                 statement.executeUpdate()
-                connection.commit()
             } catch(exception: SQLException) {
                 AustralEco.log.severe("Error while executing database update routine:")
                 exception.printStackTrace()
