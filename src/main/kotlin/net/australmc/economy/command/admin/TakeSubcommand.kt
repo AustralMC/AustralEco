@@ -6,6 +6,7 @@ import net.australmc.economy.exception.catchCommandEconomyException
 import net.australmc.economy.locale.LocaleProvider.getMappedMessage
 import net.australmc.economy.locale.Message.ADMIN_TAKE_SUCCESS
 import net.australmc.economy.service.money.takeFromPlayerBalanceService
+import net.australmc.economy.utils.formatMoney
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -30,7 +31,7 @@ class TakeSubcommand : AdminSubcommandExecutor() {
                 getMappedMessage(
                     ADMIN_TAKE_SUCCESS, mapOf(
                         "jogador" to target.name,
-                        "valor" to amount.toString()
+                        "valor" to formatMoney(amount)
                     )
                 )
             ) }
