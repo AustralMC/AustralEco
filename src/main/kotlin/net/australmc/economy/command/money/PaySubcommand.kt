@@ -1,13 +1,17 @@
 package net.australmc.economy.command.money
 
 import net.australmc.economy.command.SubcommandExecutor
+import net.australmc.economy.exception.catchCommandEconomyException
 import net.australmc.economy.locale.LocaleProvider
 import net.australmc.economy.locale.LocaleProvider.getCorrectUsageMessage
 import net.australmc.economy.locale.LocaleProvider.getMappedMessage
+import net.australmc.economy.locale.Message.COMMAND_MONEY_PAY_RECEIVED
+import net.australmc.economy.locale.Message.COMMAND_MONEY_PAY_SENT
 import net.australmc.economy.locale.Message.INVALID_AMOUNT
 import net.australmc.economy.locale.Message.PARAMETER_MUST_BE_NUMBER
 import net.australmc.economy.locale.Message.PLAYER_NOT_FOUND
 import net.australmc.economy.service.money.moneyTransferService
+import net.australmc.economy.utils.formatMoney
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -26,7 +30,22 @@ class PaySubcommand : SubcommandExecutor() {
             val target = Bukkit.getPlayer(args[0])!!
             val amount = args[1].toDouble()
 
-            moneyTransferService(player, target, amount)
+            catchCommandEconomyException(
+                player,
+                { moneyTransferService(player, target, amount) },
+                {
+                    sender.sendMessage(
+                        getMappedMessage(COMMAND_MONEY_PAY_SENT, mapOf(
+                            "alvo" to target.name,
+                            "valor" to formatMoney(amount)
+                        )))
+
+                    target.sendMessage(
+                        getMappedMessage(COMMAND_MONEY_PAY_RECEIVED, mapOf(
+                            "origem" to sender.name,
+                            "valor" to formatMoney(amount)
+                        )))
+                })
         }
 
         return true
@@ -34,7 +53,7 @@ class PaySubcommand : SubcommandExecutor() {
 
     private fun validate(sender: CommandSender, args: Array<String>) : Boolean {
         if(args.size < 2) {
-            sender.sendMessage(getCorrectUsageMessage("/money pay <jogador> <quantia>"))
+            sender.sendMessage(getCorrectUsageMessage(this.correctUsage))
             return false
         }
 

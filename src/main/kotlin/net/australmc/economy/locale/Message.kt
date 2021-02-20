@@ -7,6 +7,8 @@ enum class Message(val path: String) {
     ADMIN_SET_SUCCESS("Comandos.Admin.Set.Sucesso"),
     ADMIN_TAKE_SUCCESS("Comandos.Admin.Take.Sucesso"),
     CACHE_NOT_FOUND("Common.Nao-Encontrado-Cache"),
+    COMMAND_MONEY_PAY_RECEIVED("Comandos.Money.Pay.Quantia-Recebida"),
+    COMMAND_MONEY_PAY_SENT("Comandos.Money.Pay.Quantia-Enviada"),
     COMMAND_MONEY_OTHER_BALANCE("Comandos.Money.Saldo-Outro-Jogador"),
     COMMAND_MONEY_OWN_BALANCE("Comandos.Money.Seu-Saldo"),
     CORRECT_USAGE("Common.Uso-Correto"),

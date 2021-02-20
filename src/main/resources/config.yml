@@ -31,6 +31,9 @@ Mensagens:
     Money:
       Seu-Saldo: '{prefixo-normal} &aSeu saldo: &e{valor}'
       Saldo-Outro-Jogador: '{prefixo-normal} &aSaldo de &6{alvo}&a: &e{valor}'
+      Pay:
+        Quantia-Recebida: '{prefixo-normal} &eVocê recebeu uma transferência de &a{origem} &eno valor de: &a{valor}'
+        Quantia-Enviada: '{prefixo-normal} &eVocê transferiu &a{valor} &epara &a{alvo}&e'
   Common:
     Comando-Apenas-InGame: '{prefixo-erro} &cEsse comando só pode ser executado in-game.'
     Dinheiro-Insuficiente: '{prefixo-erro} &cVocê não tem dinheiro suficiente para isso.'
