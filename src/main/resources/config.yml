@@ -20,11 +20,11 @@ Mensagens:
   Comandos:
     Admin:
       Give:
-        Sucesso: "{prefixo-normal} &fQuantia de &a{valor} &6adicionada na conta de &e{jogador} &6com sucesso"
+        Sucesso: "{prefixo-normal} &6Quantia de &a{valor} &6adicionada na conta de &e{jogador} &6com sucesso"
       Set:
-        Sucesso: "{prefixo-normal} &fQuantia de &a{valor} &6setada com sucesso para &e{jogador}"
+        Sucesso: "{prefixo-normal} &6Quantia de &a{valor} &6setada com sucesso para &e{jogador}"
       Take:
-        Sucesso: "{prefixo-normal} &fQuantia de &a{valor} &6removida da conta de &e{jogador} &6com sucesso"
+        Sucesso: "{prefixo-normal} &6Quantia de &a{valor} &6removida da conta de &e{jogador} &6com sucesso"
       Erro:
         Cache: "{prefixo-erro} &cErro interno ao tentar encontrar os dados do jogador."
         Dinheiro-Insuficiente: "{prefixo-erro} &cO jogador não tem dinheiro suficiente."
