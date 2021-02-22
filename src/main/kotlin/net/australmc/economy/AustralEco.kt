@@ -52,6 +52,7 @@ class AustralEco : JavaPlugin() {
 
         saveDefaultConfig()
         config.options().copyDefaults(true)
+        saveConfig()
 
         LocaleProvider.setConfig(config)
         currency = ConfigMapper.mapToObject(config.getConfigurationSection("Info-Moeda"), Currency::class.java)

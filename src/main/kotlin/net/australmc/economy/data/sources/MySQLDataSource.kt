@@ -45,12 +45,15 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
     }
 
     override fun find(key: UUID, callback: BiConsumer<UUID, EconomicProfile?>) {
-        val statement = pool.connection.prepareStatement("SELECT * FROM australeco_account")
+        val statement = pool.connection.prepareStatement("SELECT * FROM australeco_account WHERE uuid = ?")
+        statement.setString(1, key.toString())
 
         executeQuery(statement) {
-            if(it.first()) {
-                callback.accept(key, EconomicProfile(key, it.getString("owner_nickname"), it.getDouble("balance")))
-            }
+            val profile = if(it.first())
+                EconomicProfile(key, it.getString("owner_nickname"), it.getDouble("balance"))
+            else null
+
+            callback.accept(key, profile)
         }
     }
 
@@ -62,7 +65,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
 
     override fun findAllBy(criteria: String, ascOrder: Boolean, callback: Consumer<List<EconomicProfile>>) {
         val order = if(ascOrder) "ASC" else "DESC"
-        val statement = pool.connection.prepareStatement("SELECT * FROM australeco_account ORDER BY ?1 $order")
+        val statement = pool.connection.prepareStatement("SELECT * FROM australeco_account ORDER BY ? $order")
         statement.setString(1, criteria)
 
         executeQuery(statement, getListQueryConsumer(callback))
@@ -72,7 +75,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
         limit: Long, criteria: String, ascOrder: Boolean, callback: Consumer<List<EconomicProfile>>) {
 
         val order = if(ascOrder) "ASC" else "DESC"
-        val statement = pool.connection.prepareStatement("SELECT * FROM australeco_account ORDER BY ?1 $order LIMIT ?2")
+        val statement = pool.connection.prepareStatement("SELECT * FROM australeco_account ORDER BY ? $order LIMIT ?")
         statement.setString(1, criteria)
         statement.setLong(2, limit)
 
@@ -81,7 +84,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
 
     override fun save(key: UUID, value: EconomicProfile, callback: BiConsumer<UUID, EconomicProfile>?) {
         val statement = pool.connection.prepareStatement(
-            "UPDATE australeco_account SET owner_nickname = ?1, balance = ?2 WHERE uuid = ?3")
+            "UPDATE australeco_account SET owner_nickname = ?, balance = ? WHERE uuid = ?")
         statement.setString(1, value.ownerName)
         statement.setDouble(2, value.balance!!)
         statement.setString(3, key.toString())
@@ -92,7 +95,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
     }
 
     override fun delete(key: UUID, callback: Consumer<UUID>?) {
-        val statement = pool.connection.prepareStatement("DELETE FROM australeco_account WHERE uuid = ?1")
+        val statement = pool.connection.prepareStatement("DELETE FROM australeco_account WHERE uuid = ?")
         statement.setString(1, key.toString())
         executeUpdate(statement)
 
@@ -108,7 +111,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
 
          val statement = pool.connection.prepareStatement(
              "INSERT INTO australeco_history (payer_id, receiver_id, amount) " +
-             "VALUES (${selectAccountByUUID("?1")}, ${selectAccountByUUID("?2")}, ?3)"
+             "VALUES (${selectAccountByUUID("?")}, ${selectAccountByUUID("?")}, ?)"
          )
         statement.setString(1, transaction.payer.ownerUUID.toString())
         statement.setString(2, transaction.receiver.ownerUUID.toString())
