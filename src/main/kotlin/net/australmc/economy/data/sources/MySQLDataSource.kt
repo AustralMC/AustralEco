@@ -25,7 +25,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
     private val pool: HikariDataSource
 
     init {
-        val minimumConnections = (Bukkit.getMaxPlayers() / 2).coerceAtLeast(1)
+        val minimumConnections = (Bukkit.getMaxPlayers() / 8).coerceAtLeast(1)
         val maximumConnections = minimumConnections * 2
         val connectionTimeout: Long = 10000
 
