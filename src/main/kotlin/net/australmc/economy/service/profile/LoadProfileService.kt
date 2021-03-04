@@ -13,7 +13,7 @@ fun loadProfileService(player: Player, economicProfile: EconomicProfile?) {
 
 private fun createNewProfile(player: Player) : EconomicProfile {
     val newProfile = EconomicProfile(player.uniqueId, player.name, 0.00)
-    dataManager.source.save(player.uniqueId, newProfile, null)
+    dataManager.source.insert(player.uniqueId, newProfile, null)
 
     return newProfile
 }

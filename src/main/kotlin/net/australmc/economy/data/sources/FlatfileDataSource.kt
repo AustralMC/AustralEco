@@ -66,6 +66,9 @@ class FlatfileDataSource(plugin: JavaPlugin) : DataSource<UUID, EconomicProfile>
         callback.accept(profiles)
     }
 
+    override fun insert(key: UUID, value: EconomicProfile, callback: BiConsumer<UUID, EconomicProfile>?) =
+        save(key, value, callback) // No need to create special treatment for insert or save in flatfile
+
     override fun save(key: UUID, value: EconomicProfile, callback: BiConsumer<UUID, EconomicProfile>?) {
         val section = getOrCreateProfileSection(key.toString())
 

@@ -23,6 +23,8 @@ abstract class DataSource<K, T> {
      */
     abstract fun findFirstBy(limit: Long, criteria: String, ascOrder: Boolean, callback: Consumer<List<T>>)
 
+    abstract fun insert(key: K, value: T, callback: BiConsumer<K, T>?)
+
     abstract fun save(key: K, value: T, callback: BiConsumer<K, T>?)
 
     abstract fun delete(key: K, callback: Consumer<K>?)

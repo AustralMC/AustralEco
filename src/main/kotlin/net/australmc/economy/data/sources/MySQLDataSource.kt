@@ -82,6 +82,17 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
         executeQuery(statement, getListQueryConsumer(callback))
     }
 
+    override fun insert(key: UUID, value: EconomicProfile, callback: BiConsumer<UUID, EconomicProfile>?) {
+        val statement = pool.connection.prepareStatement(
+            "INSERT INTO australeco_account (uuid, owner_nickname, balance) VALUES (?, ?, ?)")
+        statement.setString(1, key.toString())
+        statement.setString(2, value.ownerName)
+        statement.setDouble(3, value.balance ?: 0.0)
+        executeUpdate(statement)
+
+        callback?.accept(key, value)
+    }
+
     override fun save(key: UUID, value: EconomicProfile, callback: BiConsumer<UUID, EconomicProfile>?) {
         val statement = pool.connection.prepareStatement(
             "UPDATE australeco_account SET owner_nickname = ?, balance = ? WHERE uuid = ?")
@@ -91,7 +102,6 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
         executeUpdate(statement)
 
         callback?.accept(key, value)
-
     }
 
     override fun delete(key: UUID, callback: Consumer<UUID>?) {
@@ -111,7 +121,7 @@ class MySQLDataSource(private val plugin: JavaPlugin) : DataSource<UUID, Economi
 
          val statement = pool.connection.prepareStatement(
              "INSERT INTO australeco_history (payer_id, receiver_id, amount) " +
-             "VALUES (${selectAccountByUUID("?")}, ${selectAccountByUUID("?")}, ?)"
+             "VALUES ((${selectAccountByUUID("?")}), (${selectAccountByUUID("?")}), ?)"
          )
         statement.setString(1, transaction.payer.ownerUUID.toString())
         statement.setString(2, transaction.receiver.ownerUUID.toString())
