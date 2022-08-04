@@ -1,8 +1,8 @@
 package net.australmc.economy.domain
 
-import io.netty.util.internal.StringUtil.EMPTY_STRING
 import net.australmc.core.annotations.config.mapper.ConfigField
 import net.australmc.economy.annotation.SQLTable
+import org.apache.commons.lang3.StringUtils.EMPTY
 import java.util.*
 import java.util.UUID.randomUUID
 
@@ -13,7 +13,7 @@ class EconomicProfile(
     @SQLTable(name = "balance") @ConfigField("Balance") var balance: Double? = 0.0,
 ) {
 
-    constructor() : this(randomUUID(), EMPTY_STRING, 0.0)
+    constructor() : this(randomUUID(), EMPTY, 0.0)
 
     fun has(amount: Double): Boolean {
         return this.balance!! >= amount
