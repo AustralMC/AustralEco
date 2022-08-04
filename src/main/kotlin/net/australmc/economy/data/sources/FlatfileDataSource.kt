@@ -3,7 +3,7 @@ package net.australmc.economy.data.sources
 import net.australmc.core.config.mapper.ConfigMapper
 import net.australmc.core.config.mapper.ConfigMapper.mapToObject
 import net.australmc.economy.AustralEco.Companion.log
-import net.australmc.economy.annotation.SQLTable
+import net.australmc.economy.annotation.SQLColumn
 import net.australmc.economy.domain.EconomicProfile
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
@@ -130,8 +130,8 @@ class FlatfileDataSource(plugin: JavaPlugin) : DataSource<UUID, EconomicProfile>
         try {
             val criteriaMethod = EconomicProfile::class.java
                 .fields.filter {
-                    return@filter if(it.isAnnotationPresent(SQLTable::class.java)) {
-                         it.getAnnotation(SQLTable::class.java).name == criteria
+                    return@filter if(it.isAnnotationPresent(SQLColumn::class.java)) {
+                         it.getAnnotation(SQLColumn::class.java).name == criteria
                     } else false
                 }.firstOrNull()
 

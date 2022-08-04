@@ -1,16 +1,16 @@
 package net.australmc.economy.domain
 
 import net.australmc.core.annotations.config.mapper.ConfigField
-import net.australmc.economy.annotation.SQLTable
+import net.australmc.economy.annotation.SQLColumn
 import org.apache.commons.lang3.StringUtils.EMPTY
 import java.util.*
 import java.util.UUID.randomUUID
 
 
 class EconomicProfile(
-    @SQLTable(name = "uuid") var ownerUUID: UUID,
-    @SQLTable(name = "owner_nickname") @ConfigField("Owner-Name") val ownerName: String?,
-    @SQLTable(name = "balance") @ConfigField("Balance") var balance: Double? = 0.0,
+    @SQLColumn(name = "uuid") var ownerUUID: UUID,
+    @SQLColumn(name = "owner_nickname") @ConfigField("Owner-Name") val ownerName: String?,
+    @SQLColumn(name = "balance") @ConfigField("Balance") var balance: Double? = 0.0,
 ) {
 
     constructor() : this(randomUUID(), EMPTY, 0.0)
